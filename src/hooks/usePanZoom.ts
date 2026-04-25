@@ -85,6 +85,8 @@ export function usePanZoom(opts: UsePanZoomOptions = {}) {
 
       const dx = e.clientX - panStart.current.sx;
       const dy = e.clientY - panStart.current.sy;
+      const startTx = panStart.current.tx;
+      const startTy = panStart.current.ty;
 
       if (Math.abs(dx) > 3 || Math.abs(dy) > 3) {
         hasDragged.current = true;
@@ -92,8 +94,8 @@ export function usePanZoom(opts: UsePanZoomOptions = {}) {
 
       setTransform(() => ({
         scale: transformRef.current.scale,
-        x: panStart.current!.tx + dx,
-        y: panStart.current!.ty + dy,
+        x: startTx + dx,
+        y: startTy + dy,
       }));
     };
 

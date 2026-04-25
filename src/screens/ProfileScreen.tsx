@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useStore } from '../store/useStore';
 import { User, MapPin, Briefcase, Lock, Save, Edit2, LogOut } from 'lucide-react';
 import './ProfileScreen.css';
@@ -11,6 +11,17 @@ export default function ProfileScreen() {
     city: currentUser?.city || '',
     profession: currentUser?.profession || '',
   });
+
+  // Sync edit form when currentUser changes externally
+  useEffect(() => {
+    if (currentUser && !isEditing) {
+      setEditForm({
+        name: currentUser.name,
+        city: currentUser.city,
+        profession: currentUser.profession,
+      });
+    }
+  }, [currentUser, isEditing]);
 
   if (!currentUser) return null;
 

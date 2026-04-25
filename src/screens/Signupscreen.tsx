@@ -2,6 +2,7 @@ import React, { useState, useMemo, useEffect } from 'react';
 import { UserPlus, Eye, EyeOff, ChevronDown, ChevronUp } from 'lucide-react';
 import { useStore } from '../store/useStore';
 import { BRANCHES, RELATION_TYPES } from '../data/mockData';
+import { getAvatar } from '../data/avatars';
 import appBanner from '../assets/appbanner.png';
 import { passwordStore } from '../components/usePasswordStore';
 
@@ -397,7 +398,7 @@ interface Props {
 export default function SignUpScreen({ onSwitchToLogin }: Props) {
   useInjectStyles();
 
-  const addMember  = useStore(s => (s as any).addMember as (m: any) => void);
+  const addMember  = useStore(s => s.addMember);
   const login      = useStore(s => s.login);
   const members    = useStore(s => s.members);
 
@@ -441,26 +442,26 @@ export default function SignUpScreen({ onSwitchToLogin }: Props) {
       return;
     }
 
-    // Create the new member
-    const newId = generateId();
+    // Create the new member (no id — the store generates it)
     const newMember = {
-      id:         newId,
       name:       fullName.trim(),
       relation:   relation,
       city:       city.trim() || 'Unknown',
       phone:      phone.trim() || '',
       profession: profession.trim() || '',
-      skills:     [],
-      avatar:     `https://i.pravatar.cc/150?u=${newId}`,
+      skills:     [] as string[],
+      avatar:     getAvatar('signup_' + Date.now(), fullName.trim(), relation),
       branch:     branch,
       generation: 0,
       isLocal:    true,
     };
 
-    // Save password and add member
-    passwordStore.set(newId, password);
-    addMember(newMember);
-    login(newId);
+    // addMember returns the store-generated ID
+    const realId = addMember(newMember);
+
+    // Save password and login with the real ID
+    passwordStore.set(realId, password);
+    login(realId);
   };
 
   return (

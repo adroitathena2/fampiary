@@ -1,3 +1,5 @@
+import { getAvatar } from './avatars';
+
 export type Member = {
   id: string;
   name: string;
@@ -17,7 +19,7 @@ export type Member = {
 };
 
 // Bump this version whenever MOCK_MEMBERS structure changes to force localStorage refresh
-export const DATA_VERSION = 7;
+export const DATA_VERSION = 8;
 
 export const MOCK_MEMBERS: Member[] = [
   // ── Generation 3 — Great-grandparents (Paternal) ───────────────────────────
@@ -257,6 +259,11 @@ export const MOCK_MEMBERS: Member[] = [
   { id: 'ex14', name: 'Kamlesh Thakur', relation: 'Distant Cousin', city: 'Manali', phone: '+91 98170 20002', profession: 'Ski Instructor', skills: ['Skiing', 'Mountain Rescue'], avatar: 'https://i.pravatar.cc/150?u=ex14', branch: 'Paternal', generation: 0 },
   { id: 'ex15', name: 'Pinki Thakur', relation: 'Distant Cousin', city: 'Shimla', phone: '+91 98170 20003', profession: 'Eco-Tourism Operator', skills: ['Tourism', 'Sustainability'], avatar: 'https://i.pravatar.cc/150?u=ex15', branch: 'Paternal', generation: 0 },
 ];
+
+// Assign local gender-appropriate avatars to all members
+MOCK_MEMBERS.forEach(m => {
+  m.avatar = getAvatar(m.id, m.name, m.relation);
+});
 
 export type SwarmSignal = {
   id: string;

@@ -196,6 +196,15 @@ export default function HiveScreen() {
   const CX = 500, CY = 420;
   const BRANCH_R = 210;
 
+  // Pre-compute branch counts for all immediate members (avoids O(N²) in render loop)
+  const branchCounts = useMemo(() => {
+    const map = new Map<string, number>();
+    for (const m of immediate) {
+      map.set(m.id, getBranchRelatives(members, m.id, selfId, immediateIds).length);
+    }
+    return map;
+  }, [members, immediate, selfId, immediateIds]);
+
   const ringPos = useMemo(
     () => orbitalPositions(CX, CY, immediate.length, ORBIT_R),
     [immediate.length, ORBIT_R]
@@ -345,8 +354,8 @@ export default function HiveScreen() {
             const isMat = member.branch === 'Maternal';
             const branchType = isMat ? 'maternal' : 'paternal';
             
-            // Count branch relatives for this member
-            const branchCount = getBranchRelatives(members, member.id, selfId, immediateIds).length;
+            // Use pre-computed branch count
+            const branchCount = branchCounts.get(member.id) ?? 0;
 
             return (
               <div

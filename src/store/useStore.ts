@@ -8,7 +8,7 @@ type AppState = {
   logout: () => void;
   updateProfile: (updates: Partial<Member>) => void;
   updateMember: (memberId: string, updates: Partial<Member>) => void;
-  addMember: (member: Omit<Member, 'id'>, parentId?: string) => void;
+  addMember: (member: Omit<Member, 'id'>, parentId?: string) => string;
   removeMember: (memberId: string) => void;
   addTag: (memberId: string, tag: string) => void;
   activeSignals: SwarmSignal[];
@@ -93,7 +93,7 @@ export const useStore = create<AppState>((set, get) => ({
       currentUser: currentUser?.id === memberId ? { ...currentUser, ...updates } : currentUser 
     });
   },
-  addMember: (memberData: Omit<Member, 'id'>, parentId?: string) => {
+  addMember: (memberData: Omit<Member, 'id'>, parentId?: string): string => {
     const { members, currentUser } = get();
     const newId = `m${Date.now()}`;
     let newMember: Member = { ...memberData, id: newId };
@@ -130,6 +130,7 @@ export const useStore = create<AppState>((set, get) => ({
       ? updatedMembers.find(m => m.id === currentUser.id) || null
       : null;
     set({ members: updatedMembers, currentUser: updatedCurrentUser });
+    return newId;
   },
   removeMember: (memberId: string) => {
     const { members, currentUser } = get();

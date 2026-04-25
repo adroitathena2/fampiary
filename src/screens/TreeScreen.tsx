@@ -664,7 +664,8 @@ function allSpousePairs(members: Member[]): Array<[string, string]> {
 // ─── Utilities ────────────────────────────────────────────────────
 
 function initials(name: string) {
-  return name.split(' ').map(w => w[0]).join('').slice(0, 2).toUpperCase();
+  if (!name) return '??';
+  return name.split(' ').map(w => w[0] ?? '').join('').slice(0, 2).toUpperCase() || '??';
 }
 function idHue(id: string) {
   let h = 0;
@@ -684,9 +685,17 @@ export default function TreeScreen() {
   const allMembers   = useStore(s => s.members);
   const currentUser  = useStore(s => s.currentUser);
   const removeMember = useStore(s => s.removeMember);
-  const updateParent = useStore(
-    s => (s as any).updateParent as ((childId: string, newParentId: string | null) => void) | undefined,
-  );
+  const updateMember = useStore(s => s.updateMember);
+
+  // Connect mode: add childId as a child of newParentId
+  const connectParent = useCallback((childId: string, newParentId: string) => {
+    const parent = allMembers.find(m => m.id === newParentId);
+    if (!parent) return;
+    const existingChildren = parent.children ?? [];
+    if (!existingChildren.includes(childId)) {
+      updateMember(newParentId, { children: [...existingChildren, childId] });
+    }
+  }, [allMembers, updateMember]);
 
   // Cap to 100 members
   const members = useMemo(() => allMembers.slice(0, MAX_MEMBERS), [allMembers]);
@@ -915,9 +924,10 @@ export default function TreeScreen() {
     if ((e.target as HTMLElement).closest('[data-nid]')) return;
     isPanning.current = true;
     setIsPan(true);
-    panRef.current = { sx: e.clientX, sy: e.clientY, tx: transform.x, ty: transform.y };
+    const cur = transformRef.current;
+    panRef.current = { sx: e.clientX, sy: e.clientY, tx: cur.x, ty: cur.y };
     (e.currentTarget as HTMLDivElement).setPointerCapture(e.pointerId);
-  }, [transform]);
+  }, []);
 
   const onCvsMove = useCallback((e: React.PointerEvent<HTMLDivElement>) => {
     if (draggingRef.current) {
@@ -933,7 +943,9 @@ export default function TreeScreen() {
       return;
     }
     if (connectMode && connectSrc) {
-      const r  = wrapperRef.current!.getBoundingClientRect();
+      const el = wrapperRef.current;
+      if (!el) return;
+      const r  = el.getBoundingClientRect();
       const cx = (e.clientX - r.left - transform.x) / transform.scale;
       const cy = (e.clientY - r.top  - transform.y) / transform.scale;
       const sp = positions.get(connectSrc);
@@ -971,11 +983,11 @@ export default function TreeScreen() {
   const onNodeUp = useCallback((e: React.PointerEvent<HTMLDivElement>, id: string) => {
     e.stopPropagation();
     if (connectMode && connectSrc && connectSrc !== id) {
-      updateParent?.(connectSrc, id);
+      connectParent(connectSrc, id);
       setConnectSrc(null); setConnectLine(null); return;
     }
     draggingRef.current = null;
-  }, [connectMode, connectSrc, updateParent]);
+  }, [connectMode, connectSrc, connectParent]);
 
   const onNodeClick = useCallback((e: React.MouseEvent, id: string) => {
     e.stopPropagation();

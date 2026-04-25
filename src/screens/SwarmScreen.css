@@ -120,6 +120,10 @@
   align-items: center;
 }
 
+.swarm-screen .screen-header {
+  margin-bottom: 20px;
+}
+
 .signal-icon {
   width: 14px;
   height: 14px;

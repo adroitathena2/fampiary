@@ -24,7 +24,7 @@ export default function SearchScreen() {
 
       return matchesSearch && matchesCity && matchesProfession;
     });
-  }, [searchQuery, selectedCity, selectedProfession]);
+  }, [members, searchQuery, selectedCity, selectedProfession]);
 
   return (
     <div className="search-screen animate-fade-in">
