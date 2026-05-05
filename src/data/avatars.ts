@@ -1,57 +1,11 @@
 // ── Local Avatar imports ──────────────────────────────────────────
-// 20 male + 20 female avatars downloaded from pravatar.cc
+// Using 2 generic avatars: male.jpg and female.jpg
 
-import male1 from '../assets/avatars/male_1.jpg';
-import male2 from '../assets/avatars/male_2.jpg';
-import male3 from '../assets/avatars/male_3.jpg';
-import male4 from '../assets/avatars/male_4.jpg';
-import male5 from '../assets/avatars/male_5.jpg';
-import male6 from '../assets/avatars/male_6.jpg';
-import male7 from '../assets/avatars/male_7.jpg';
-import male8 from '../assets/avatars/male_8.jpg';
-import male9 from '../assets/avatars/male_9.jpg';
-import male10 from '../assets/avatars/male_10.jpg';
-import male11 from '../assets/avatars/male_11.jpg';
-import male12 from '../assets/avatars/male_12.jpg';
-import male13 from '../assets/avatars/male_13.jpg';
-import male14 from '../assets/avatars/male_14.jpg';
-import male15 from '../assets/avatars/male_15.jpg';
-import male16 from '../assets/avatars/male_16.jpg';
-import male17 from '../assets/avatars/male_17.jpg';
-import male18 from '../assets/avatars/male_18.jpg';
-import male19 from '../assets/avatars/male_19.jpg';
-import male20 from '../assets/avatars/male_20.jpg';
+import maleAvatar from '../assets/male.jpg';
+import femaleAvatar from '../assets/female.jpg';
 
-import female1 from '../assets/avatars/female_1.jpg';
-import female2 from '../assets/avatars/female_2.jpg';
-import female3 from '../assets/avatars/female_3.jpg';
-import female4 from '../assets/avatars/female_4.jpg';
-import female5 from '../assets/avatars/female_5.jpg';
-import female6 from '../assets/avatars/female_6.jpg';
-import female7 from '../assets/avatars/female_7.jpg';
-import female8 from '../assets/avatars/female_8.jpg';
-import female9 from '../assets/avatars/female_9.jpg';
-import female10 from '../assets/avatars/female_10.jpg';
-import female11 from '../assets/avatars/female_11.jpg';
-import female12 from '../assets/avatars/female_12.jpg';
-import female13 from '../assets/avatars/female_13.jpg';
-import female14 from '../assets/avatars/female_14.jpg';
-import female15 from '../assets/avatars/female_15.jpg';
-import female16 from '../assets/avatars/female_16.jpg';
-import female17 from '../assets/avatars/female_17.jpg';
-import female18 from '../assets/avatars/female_18.jpg';
-import female19 from '../assets/avatars/female_19.jpg';
-import female20 from '../assets/avatars/female_20.jpg';
-
-export const MALE_AVATARS: string[] = [
-  male1, male2, male3, male4, male5, male6, male7, male8, male9, male10,
-  male11, male12, male13, male14, male15, male16, male17, male18, male19, male20,
-];
-
-export const FEMALE_AVATARS: string[] = [
-  female1, female2, female3, female4, female5, female6, female7, female8, female9, female10,
-  female11, female12, female13, female14, female15, female16, female17, female18, female19, female20,
-];
+export const MALE_AVATARS: string[] = [maleAvatar];
+export const FEMALE_AVATARS: string[] = [femaleAvatar];
 
 // ── Female relation keywords (Indian family terms + English) ─────
 const FEMALE_RELATIONS = new Set([
@@ -61,16 +15,15 @@ const FEMALE_RELATIONS = new Set([
   'chachi', 'tai', 'mami', 'mausi', 'bua', 'nani', 'dadi', 'didi',
   'bhabhi', 'sali',
   'great-aunt', 'second aunt', 'distant aunt',
+  'paternal aunt', 'paternal aunt (aatya)',
 ]);
-
-// ── Common Indian female name endings / patterns ─────────────────
-const FEMALE_NAME_SUFFIXES = [
-  'ita', 'ini', 'ika', 'ita', 'a', 'i', 'ee', 'devi', 'amma',
-  'tha', 'ya', 'sha', 'na', 'la', 'ra', 'ka', 'ma', 'ri', 'ti',
-];
 
 // Explicitly female Indian first names (common ones)
 const FEMALE_FIRST_NAMES = new Set([
+  'usha', 'bhavna', 'aparna', 'sonali', 'kavita', 'suman', 'sunanda',
+  'chalanabai', 'vibhavari', 'pratibha', 'sashikala', 'kasturi',
+  'varsha', 'shaila', 'pooja', 'madhuri', 'swapna', 'sampada', 'sneha',
+  'acham', 'dodal',
   'sita', 'sunita', 'geeta', 'savitri', 'kamla', 'sharda', 'savita',
   'nisha', 'kriti', 'divya', 'pooja', 'tanvi', 'pushpa', 'lata',
   'ritu', 'ankita', 'meena', 'sarla', 'nandini', 'ishita', 'ananya',
@@ -87,6 +40,11 @@ const FEMALE_FIRST_NAMES = new Set([
 
 // Explicitly male first names
 const MALE_FIRST_NAMES = new Set([
+  'rajendrakumar', 'rajeshwar', 'kamlesh', 'deepak', 'abhay', 'shravan',
+  'arya', 'shaurya', 'shlok', 'keyur', 'rambhau', 'jaykumar', 'padmakar',
+  'shitalchand', 'vishnukumar', 'suhas', 'rukhoba', 'nirmal', 'sadanand',
+  'nemichand', 'suresh', 'sanjay', 'kailash', 'snehal', 'ankush', 'rohan',
+  'pratik',
   'ramesh', 'anil', 'rajesh', 'rahul', 'rohan', 'amit', 'vikram',
   'hariram', 'mohan', 'suresh', 'deepak', 'manish', 'arjun', 'jagdish',
   'pramod', 'ramakant', 'hemant', 'dinesh', 'gaurav', 'harsh', 'kabir',
@@ -97,7 +55,7 @@ const MALE_FIRST_NAMES = new Set([
   'vinay', 'advaith', 'ashok', 'aryan', 'saurabh', 'pratik',
   'gopal', 'karthik', 'mahaveer', 'raj', 'sumer', 'biswajit', 'anup',
   'bhavesh', 'parth', 'venkat', 'aditya', 'krishnadas', 'nikhil',
-  'rajan', 'tarun', 'deepak', 'omkar', 'swaraj', 'manpreet', 'gurpreet',
+  'rajan', 'tarun', 'omkar', 'swaraj', 'manpreet', 'gurpreet',
   'dilip', 'rabindra', 'subhranshu', 'baldev', 'veer', 'mihir',
   'gopinath', 'jitendra', 'kamlesh', 'sanjay', 'hemant',
 ]);
@@ -117,6 +75,8 @@ export function detectGender(name: string, relation: string): 'male' | 'female' 
     'mother', 'grandmother', 'daughter', 'sister', 'wife', 'aunt',
     'niece', 'granddaughter', 'chachi', 'tai', 'mami', 'mausi', 'bua',
     'nani', 'dadi', 'didi', 'bhabhi', 'sali',
+    'daughter-in-law', 'daughter in law',
+    'sister-in-law', 'sister in law',
   ];
   for (const kw of femRelKeywords) {
     if (relLower.includes(kw)) return 'female';
@@ -127,6 +87,7 @@ export function detectGender(name: string, relation: string): 'male' | 'female' 
     'nephew', 'grandson', 'chacha', 'tau', 'mama', 'mausa', 'fufa',
     'nana', 'dada', 'bhaiya', 'jija', 'sala', 'self',
     'father-in-law', 'brother-in-law', 'son-in-law',
+    'son in law', 'brother in law',
   ];
   for (const kw of maleRelKeywords) {
     if (relLower.includes(kw)) return 'male';
